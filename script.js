@@ -3,9 +3,11 @@ let isDown = false;
 let startX;
 let scrollLeft;
 
-slider.addEventListener('mousedown',() => {
+slider.addEventListener('mousedown',(e) => {
     isDown = true;
     slider.classList.add('active');
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
 });
 slider.addEventListener('mouseleave',() => {
     isDown = false;
@@ -17,7 +19,10 @@ slider.addEventListener('mouseup',() => {
     slider.classList.remove('active');
 
 });
-slider.addEventListener('mousemove',() => {
+slider.addEventListener('mousemove',(e) => {
     if(!isDown) return;
-    console.log(isDown);
+    e.preventDefault();
+    const x = e.pageX - slider.offsetLeft;
+    const walk = x - startX;
+    slider.scrollLeft = scrollLeft - walk;
 });
